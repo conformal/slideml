@@ -1,3 +1,4 @@
+/* $slideml$ */
 /* slidy.js
 
    Copyright (c) 2005-2009 W3C (MIT, ERCIM, Keio), All Rights Reserved.
