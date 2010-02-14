@@ -40,6 +40,9 @@ If required one can use a picture as the background for the presentation
 using the @picture tag.  For example:
 @picture=example.png
 
+The default font can be changed using the @font tag.  For example:
+@font=mysnazyfont
+
 
 3. Slides
 
@@ -96,10 +99,22 @@ The text tags are wrappers of meta-characters surrounding a piece
 of text.
 
 The supported tags are:
-	Bold
-	Italic
-	Underline
-	Font size
-	Bullets
-	Pictures
+	* Bold.  Bold is text wrapped in **
+	  For example *this is bold*
+	* Italic.  Italic is text wrapped in //
+	  For example /this text is italic/
+	* Underline.  Underline is text wrapped in __
+	  For example _this text is underline_
+	* Bigger font size.  Bigger font size is text wrapped in ^^
+	  For example: ^bigger font^
+	  Multiple ^ can be used to indicate ^^even bigger font^^
+	  Up to three ^ can be used.
+	* Bullets.  The graphical representation of bullets is
+	  determined by which character is used.  The characters that
+	  can be used are * (large bullet) - (dash bullet) . (small
+	  bullet) and > (arrow bullet).
+	  The physical indentation, expressed in number of tabs,
+	  determines the indentation depth on the slides.
 
+	* Pictures.
+	  Under review: [img=moo.jpg width=W height=h xpos=X ypos=Y]
