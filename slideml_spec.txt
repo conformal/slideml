@@ -1,0 +1,105 @@
+$slideml$
+
+1. Overview
+
+Slideml is a meta-language to aid in writing presentations in simple to read
+text.  This text is then translated into XHTML and can be presented
+using a standard web browser.
+
+
+2. Meta-data
+
+All meta-data tags must be at the start of the line and prefixed with @.
+The meta-data is either a flag or a "value equals pair".  When the
+meta-data tags are used before the first new slide designator the
+values are global defaults.
+
+The currently supported meta-data tags are:
+The title of the presentation use the @title tag.  For example:
+@title=My fancy presentation
+
+The background color of the presentation uses the @background tag.  For
+example:
+@background=#12abff
+
+The foreground color of the text uses the @foreground tag.  For example:
+@foreground=#abcd00
+
+There are 2 types of slides
+	1. Introduction slide (intro)
+		The introduction slide has centered large text for
+		typically 1 or 2 lines for the presentation name and author.
+	2. Regular slide (normal)
+		This is a slide with a header, content and footer.
+For example
+@type=intro
+or
+@type=normal
+
+If required one can use a picture as the background for the presentation
+using the @picture tag.  For example:
+@picture=example.png
+
+
+3. Slides
+
+All slide tags and section designators must be at the start of the line.
+
+A slide consists of 5 sections:
+	1. New slide designator
+	2. Slide specific meta-data
+	3. Slide header
+	4. Slide content
+	5. Slide footer
+
+Expressed in slideml:
+---
+@metadata
+<this is the header>
+This is the slide content.
+!this is the footer!
+
+3.1 New slide designator
+
+The new slide designator --- designates the  start of a new slide.
+
+3.2 Slide meta-data
+
+See section 2.  Only difference being that the meta-data only applies to
+the current slide.
+
+3.3 Slide header
+
+The title of a slide is designated between <>.  This title is a large
+font and is rendered on top of the page.  For example:
+<This is my title>
+The title attribute must be the first character on the line so that
+something like a < b renders as text.
+
+3.4 Slide content
+
+This is where the meat of the presentation goes.  See section 4 for text
+and other tags.
+
+3.5 Slide footer
+
+The footer of a slide is designated between !!.  This footer is a small
+font and is rendered bottom of the page.For example:
+!This is my footer!
+The footer attribute must be the first character on the line so that
+something like hi!! renders as text.
+
+
+4. Text
+
+The text tags are wrappers of meta-characters surrounding a piece
+of text.
+
+The supported tags are:
+	Bold
+	Italic
+	Underline
+	Font size
+	Bullets
+	Pictures
+
