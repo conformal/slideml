@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+# $slideml$
+
 #
 # Copyright (c) 2010 Joel Sing (joel@sing.id.au)
 #
@@ -56,6 +58,8 @@ while (<>) {
 		}
 		next;
 	}
+
+	next if $slideno == 0 && $_ !~ /^---$/;
 
 	if ($slideno == 0) {
 		&header();
