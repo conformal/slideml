@@ -1,13 +1,17 @@
 # $slideml$
 # example presentation
 
-background=#aaaaaa
-foreground=#000044
-#backimage=moo.jpg
+# comment
+@title=My Fancy Presentation
+@background=#aaaaaa
+@foreground=#000044
+#@backimage=moo.jpg
 ---
 <My Name Goes Here>
 A presentation on thingy stuff
 ---
+@background=#000000
+@foreground=#0000aa
 <My presentation>
 * Welcome to my bullet
 	- yes it is this easy
@@ -21,8 +25,10 @@ A presentation on thingy stuff
 * is this cool or what?
 !my footer!
 ---
+@background=#ffffff
+@foreground=#333333
 <One more slide>
 1 number list
+	1 indented number
 2 yeah
 3 three!
----

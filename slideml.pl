@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 
-# $slideml$
-
 #
 # Copyright (c) 2010 Joel Sing (joel@sing.id.au)
 #
@@ -29,9 +27,15 @@ $listdepth = 0;
 @liststack = ();
 $inlistitem = 0;
 
+$title = "SlideML";
 $bgcolour = "#333333";
 $fgcolour = "#e4e4e4";
 $bgimage = "";
+
+# Get path to script
+@path = split '\/', $0;
+pop @path;
+$path = join '/', @path;
 
 while (<>) {
 
@@ -39,21 +43,43 @@ while (<>) {
 
 	next if ($_ =~ /^#/);
 
-	if ($slideno == 0 && $_ !~ /^---$/) {
-		# Handle metadata
-		if ($_ =~ /^background=(.*)$/) {
-			$bgcolour = $1;
-		} elsif ($_ =~ /^foreground=(.*)$/) {
-			$fgcolour = $1;
-		} elsif ($_ =~ /^backimage=(.*)$/) {
-			$bgimage = $1;
+	if ($_ =~ /^@(.*)=(.*)/) {
+		if ($slideno == 0) {
+			$title = $2 if $1 eq 'title';
+			$bgcolour = $2 if $1 eq 'background';
+			$fgcolour = $2 if $1 eq 'foreground';
+			$bgimage = $2 if $1 eq 'backimage';
+		} else {
+			$slide{bgcolour} = $2 if $1 eq 'background';
+			$slide{fgcolour} = $2 if $1 eq 'foreground';
+			$slide{bgimage} = $2 if $1 eq 'backimage';
 		}
-
 		next;
 	}
 
 	if ($slideno == 0) {
 		&header();
+	}
+
+	if ($newslide == 1) {
+		$style = "";
+		if ($slide{bgimage} ne '') {
+			$style .= "background: url('$slide{bgimage}'); ";
+		} elsif ($slide{bgcolour} ne '') {
+			$style .= "background: $slide{bgcolour}; ";
+		}
+		if ($slide{fgcolour} ne '') {
+			$style .= "color: $slide{fgcolour}; ";
+		}
+
+		print "<div class=\"slide\" style=\"$style\">\n";
+		if ($slideno == 1) {
+			$cover = 1;
+			print "  <div class=\"cover\">\n";
+		}
+
+		undef %slide;
+		$newslide = 0;
 	}
 
 	# Determine indent depth
@@ -122,13 +148,9 @@ while (<>) {
 		# New slide
 		print "  </div>\n" if $cover;
 		print "</div>\n\n" if $slideno;
-		print "<div class=\"slide\">\n";
 		$cover = 0;
 		$slideno++;
-		if ($slideno == 1) {
-			$cover = 1;
-			print "  <div class=\"cover\">\n";
-		}
+		$newslide = 1;
 	} elsif ($_ =~ /^<(.*)>$/) {
 		# Header
 		print "  <h1>$1</h1>\n";
@@ -159,6 +181,13 @@ while (<>) {
 
 }
 
+print "</li>\n" if $inlistitem;
+while (scalar @liststack > 0) {
+	print pop @liststack;
+}
+print "  </div>\n" if $cover;
+print "</div>\n\n" if $slideno;
+
 &footer();
 
 sub header() {
@@ -172,7 +201,7 @@ sub header() {
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>SlideML</title>
+  <title>$title</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
   <meta http-equiv="Generator" content="SlideML" />
 EOF
@@ -231,7 +260,7 @@ EOF
 
 sub slidy_css() {
 
-	open CSS, "./slidy.css";
+	open CSS, "$path/slidy.css";
 	flock CSS, 1;
 	@css = <CSS>;
 	flock CSS, 8;
@@ -242,7 +271,7 @@ sub slidy_css() {
 
 sub slidy_js() {
 
-	open JS, "./slidy.js";
+	open JS, "$path/slidy.js";
 	flock JS, 1;
 	@js = <JS>;
 	flock JS, 8;
