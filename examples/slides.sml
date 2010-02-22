@@ -23,6 +23,7 @@ A presentation on thingy stuff
 ---
 <Title on slide>
 * is this cool or what?
+[img src=puffy.gif width=300 height=258 align=right]
 !my footer!
 ---
 @background=#ffffff
