@@ -7,6 +7,7 @@
 @foreground=#000044
 #@backimage=moo.jpg
 ---
+@type=title
 <My Name Goes Here>
 A presentation on thingy stuff
 ---
