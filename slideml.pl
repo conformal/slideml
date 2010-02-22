@@ -45,6 +45,8 @@ while (<>) {
 
 	next if ($_ =~ /^#/);
 
+	$style = "";
+
 	if ($_ =~ /^@(.*)=(.*)/) {
 		if ($slideno == 0) {
 			$title = $2 if $1 eq 'title';
@@ -66,7 +68,6 @@ while (<>) {
 	}
 
 	if ($newslide == 1) {
-		$style = "";
 		if ($slide{bgimage} ne '') {
 			$style .= "background: url('$slide{bgimage}'); ";
 		} elsif ($slide{bgcolour} ne '') {
@@ -164,6 +165,40 @@ while (<>) {
 	} elsif ($_ =~ /^!(.*)!$/) {
 		# Footer
 		print "  <div class=\"footer\">$1</div>\n";
+	} elsif ($_ =~ /^\[img (.*)\]$/) {
+		# Image
+		@nv = split / +/, $1;
+		$w = $h = 0;
+		$s = $a = '';
+		foreach $nv (@nv) {
+			($n, $v) = split /=/, $nv;
+			$s = $v if $n eq 'src';
+			$w = $v if $n eq 'width';
+			$h = $v if $n eq 'height';
+			$a = $v if $n eq 'align';
+		}
+		if ($s eq '') {
+			print STDERR "Image is missing source!\n";
+			exit 1;
+		}
+		if ($w == 0 || $h == 0) {
+			print STDERR "Image is missing width or height!\n";
+			exit 1;
+		}
+		if ($a eq 'right') {
+			$style = "float: right;";
+		} elsif ($a eq 'left') {
+			$style = "float: left;";
+		} elsif ($a eq 'center' || $a eq 'centre') {
+			$style = "margin-left: auto; margin-right: auto; ";
+			$style .= "text-align: center";
+		} elsif ($a eq 'bottom') {
+			$style = "position: absolute; bottom: 32px;";
+		}
+		print "  <div width=\"$w\" height=\"$h\"" .
+		    ($style ne '' ? " style=\"$style\" " : '') . ">\n" .
+		    "    <img src=\"$s\" width=\"$w\" height=\"$h\" />\n" .
+		    "  </div>\n";
 	} else {
 
 		$_ =~ s-\*(.+)\*-<strong>$1</strong>-g;
