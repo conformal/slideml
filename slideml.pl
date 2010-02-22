@@ -57,6 +57,7 @@ while (<>) {
 			$slide{bgcolour} = $2 if $1 eq 'background';
 			$slide{fgcolour} = $2 if $1 eq 'foreground';
 			$slide{bgimage} = $2 if $1 eq 'backimage';
+			$slide{type} = $2 if $1 eq 'type';
 		}
 		next;
 	}
@@ -78,12 +79,10 @@ while (<>) {
 		}
 
 		print "<div class=\"slide\" style=\"$style\">\n";
-		if ($slideno == 1) {
-			$cover = 1;
+		if ($slide{type} eq 'title') {
 			print "  <div class=\"cover\">\n";
 		}
 
-		undef %slide;
 		$newslide = 0;
 	}
 
@@ -151,9 +150,9 @@ while (<>) {
 
 	if ($_ =~ /^---$/) {
 		# New slide
-		print "  </div>\n" if $cover;
+		print "  </div>\n" if $slide{type} eq 'title';
 		print "</div>\n\n" if $slideno;
-		$cover = 0;
+		undef %slide;
 		$slideno++;
 		$newslide = 1;
 	} elsif ($_ =~ /^<(.*)>$/) {
