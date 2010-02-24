@@ -158,9 +158,9 @@ while (<>) {
 	} elsif ($_ =~ /^<(.*)>$/) {
 		# Header
 		print "  <h1>$1</h1>\n";
-	} elsif ($_ =~ /^<(.*)>$/) {
-		# Header
-		print "  <h1>$1</h1>\n";
+	} elsif ($_ =~ /^>(.*)<$/) {
+		# Centered Header
+		print "  <h1 class=\"center\">$1</h1>\n";
 	} elsif ($_ =~ /^!(.*)!$/) {
 		# Footer
 		print "  <div class=\"footer\">$1</div>\n";
@@ -252,6 +252,11 @@ EOF
 	&slidy_css();
 
 print <<EOF;
+
+h1.center {
+	width: 100%;
+	text-align: center;
+}
 
 div.cover {
 	padding-top: 80px;
