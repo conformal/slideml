@@ -10,7 +10,7 @@
 @type=title
 <My Name Goes Here>
 [img src=http://www.openbsd.org/art/sublow.jpg size=40% align=center]
-A presentation on thingy stuff
+A ^presentation^ on ^^thingy^^ stuff
 ---
 @background=#000000
 @foreground=#0000aa
