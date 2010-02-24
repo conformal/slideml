@@ -22,6 +22,14 @@
 # Generate HTML Slidy slides from SlideML
 #
 
+use File::Fetch;
+
+# See if Image::Size is available
+eval {
+	require Image::Size;
+	$imagesize = 1;
+};
+
 $version = 0.1;
 
 $slideno = 0;
@@ -167,7 +175,7 @@ while (<>) {
 	} elsif ($_ =~ /^\[img (.*)\]$/) {
 		# Image
 		@nv = split / +/, $1;
-		$w = $h = 0;
+		$w = $h = $size = 0;
 		$s = $a = '';
 		foreach $nv (@nv) {
 			($n, $v) = split /=/, $nv;
@@ -175,6 +183,29 @@ while (<>) {
 			$w = $v if $n eq 'width';
 			$h = $v if $n eq 'height';
 			$a = $v if $n eq 'align';
+			if ($n eq 'size') {
+				$size = $v;
+				$size =~ s/%$//;
+				$size /= 100;
+			}
+		}
+		if ($size > 0) {
+			if (!$imagesize) {
+				print STDERR "Image size requires Image::Size ",
+				    "module, which appears to be missing!\n";
+				exit 1;
+			}
+
+			if ($s =~ /^http:\/\//) {
+				$ff = File::Fetch->new(uri => $s);
+				$filename = $ff->fetch(to => \$file);
+			} else {
+				$filename = $s;
+			}
+
+			($w, $h) = Image::Size::imgsize($filename);
+			$w = int($w * $size);
+			$h = int($h * $size);
 		}
 		if ($s eq '') {
 			print STDERR "Image is missing source!\n";
@@ -194,8 +225,8 @@ while (<>) {
 		} elsif ($a eq 'bottom') {
 			$style = "position: absolute; bottom: 32px;";
 		}
-		print "  <div width=\"$w\" height=\"$h\"" .
-		    ($style ne '' ? " style=\"$style\" " : '') . ">\n" .
+		print "  <div" .
+		    ($style ne '' ? " style=\"$style\"" : '') . ">\n" .
 		    "    <img src=\"$s\" width=\"$w\" height=\"$h\" />\n" .
 		    "  </div>\n";
 	} else {
