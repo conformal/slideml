@@ -234,6 +234,8 @@ while (<>) {
 		$_ =~ s-\*(.+)\*-<strong>$1</strong>-g;
 		$_ =~ s-\/(.+)\/-<em>$1</em>-g;
 		$_ =~ s-_(.+)_-<u>$1</u>-g;
+		$_ =~ s-\^\^(.+)\^\^-<span style="font\-size: 150%">$1</span>-g;
+		$_ =~ s-\^(.+)\^-<span style="font\-size: 125%">$1</span>-g;
 
 		print "</li>\n" if $inlistitem;
 		$inlistitem = 0;
