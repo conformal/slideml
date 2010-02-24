@@ -9,7 +9,7 @@
 ---
 @type=title
 <My Name Goes Here>
-[img src=http://www.openbsd.org/art/sublow.jpg width=20% height=20% align=center]
+[img src=http://www.openbsd.org/art/sublow.jpg size=40% align=center]
 A presentation on thingy stuff
 ---
 @background=#000000
@@ -37,4 +37,4 @@ A presentation on thingy stuff
 	1 indented number
 2 yeah
 3 three!
-[img src=http://www.openbsd.org/art/puffy/puf300X258.gif width=20% height=20% align=right]
+[img src=http://www.openbsd.org/art/puffy/puf300X258.gif size=20% align=right]
