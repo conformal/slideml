@@ -79,6 +79,9 @@ font and is rendered on top of the page.  For example:
 The title attribute must be the first character on the line so that
 something like a < b renders as text.
 
+To center the title on the slide use >< instead.  For example:
+>centered title< 
+
 3.4 Slide content
 
 This is where the meat of the presentation goes.  See section 4 for text
