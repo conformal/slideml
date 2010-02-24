@@ -258,6 +258,10 @@ h1.center {
 	text-align: center;
 }
 
+div.slide {
+	padding: 32px;
+}
+
 div.cover {
 	padding-top: 80px;
 	text-align: center;
