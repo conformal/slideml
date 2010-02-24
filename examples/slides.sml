@@ -29,7 +29,7 @@ A presentation on thingy stuff
 ---
 @background=#ffffff
 @foreground=#333333
-<One more slide>
+>One more slide<
 1 number list
 	1 indented number
 2 yeah
