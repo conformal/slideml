@@ -111,7 +111,7 @@ The supported tags are:
 	* Bigger font size.  Bigger font size is text wrapped in ^^
 	  For example: ^bigger font^
 	  Multiple ^ can be used to indicate ^^even bigger font^^
-	  Up to three ^ can be used.
+	  Up to two ^ can be used.
 	* Bullets.  The graphical representation of bullets is
 	  determined by which character is used.  The characters that
 	  can be used are * (large bullet) - (dash bullet) . (small
@@ -120,4 +120,9 @@ The supported tags are:
 	  determines the indentation depth on the slides.
 
 	* Pictures.
-	  Under review: [img=moo.jpg width=W height=h xpos=X ypos=Y]
+	  [img=I [size=P | width=W height=H] [xpos=X ypos=Y | align=A]]
+	  Where:	I is a link to, or a picture.
+	  		P is a percentage of the orignal size of an image.
+			W & H are width and heigh in pixels
+			X & Y are pixel locations
+			A is align keyword such as left or top.
