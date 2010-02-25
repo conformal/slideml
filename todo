@@ -1,13 +1,5 @@
 $slideml$
 
-* add picture tag
-	- alignment
-	- sizing
 * add font color
 * add font size
 * add highlight tag
-* make header work per slide
-* create slide types
-	- title (centered large font slide)
-	- regular (header, middle, footer)
-	- double column slide
