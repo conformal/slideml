@@ -41,6 +41,8 @@ $title = "SlideML";
 $bgcolour = "#333333";
 $fgcolour = "#e4e4e4";
 $bgimage = "";
+$bgimagepos = "";
+$bgimagerpt = "";
 
 # Get path to script
 @path = split '\/', $0;
@@ -61,10 +63,14 @@ while (<>) {
 			$bgcolour = $2 if $1 eq 'background';
 			$fgcolour = $2 if $1 eq 'foreground';
 			$bgimage = $2 if $1 eq 'backimage';
+			$bgimagepos = $2 if $1 eq 'backimagepos';
+			$bgimagerpt = $2 if $1 eq 'backimagerpt';
 		} else {
 			$slide{bgcolour} = $2 if $1 eq 'background';
 			$slide{fgcolour} = $2 if $1 eq 'foreground';
 			$slide{bgimage} = $2 if $1 eq 'backimage';
+			$slide{bgimagepos} = $2 if $1 eq 'backimagepos';
+			$slide{bgimagerpt} = $2 if $1 eq 'backimagerpt';
 			$slide{type} = $2 if $1 eq 'type';
 		}
 		next;
@@ -78,9 +84,25 @@ while (<>) {
 
 	if ($newslide == 1) {
 		if ($slide{bgimage} ne '') {
-			$style .= "background: url('$slide{bgimage}'); ";
-		} elsif ($slide{bgcolour} ne '') {
-			$style .= "background: $slide{bgcolour}; ";
+			$style .= "background-image: url('$slide{bgimage}'); ";
+		} 
+		if ($slide{bgcolour} ne '') {
+			$style .= "background-color: $slide{bgcolour}; ";
+		}
+		if ($slide{bgimagepos} ne '') {
+			$style .= "background-position: $slide{bgimagepos}; ";
+		}
+		if ($slide{bgimagerpt} ne '') {
+			if ($slide{bgimagerpt} eq 'no') {
+				$slide{bgimagerpt} = "no-repeat";
+			} elsif ($slide{bgimagerpt} eq 'yes') {
+				$slide{bgimagerpt} = "repeat-x repeat-y";
+			} elsif ($slide{bgimagerpt} eq 'x') {
+				$slide{bgimagerpt} = "repeat-x";
+			} elsif ($slide{bgimagerpt} eq '') {
+				$slide{bgimagerpt} = "repeat-y";
+			}
+			$style .= "background-repeat: $slide{bgimagerpt}; ";
 		}
 		if ($slide{fgcolour} ne '') {
 			$style .= "color: $slide{fgcolour}; ";
