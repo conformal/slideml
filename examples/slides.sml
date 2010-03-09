@@ -12,6 +12,11 @@
 [img src=http://www.openbsd.org/art/sublow.jpg size=40% align=center]
 A ^presentation^ on ^^thingy^^ stuff
 ---
+@background=#284360
+@backimage=http://www.openbsd.org/images/tshirt-23.gif
+@backimagepos=center
+@backimagerpt=no
+---
 @background=#000000
 @foreground=#0000aa
 <My presentation>
