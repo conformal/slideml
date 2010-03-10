@@ -44,3 +44,12 @@ Include some text with_underscores_inline and *asterisks*inline!
 2 yeah
 3 three!
 [img src=http://www.openbsd.org/art/puffy/puf300X258.gif size=20% align=right]
+---
+>Another example<
+==
+This is preformated
+  text
+    & should _not_ be
+      <changed>
+==
+This text is <not> preformated & should be processed!
