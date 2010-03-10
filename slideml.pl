@@ -36,6 +36,7 @@ $slideno = 0;
 $listdepth = 0;
 @liststack = ();
 $inlistitem = 0;
+$inpre = 0;
 
 $title = "SlideML";
 $bgcolour = "#333333";
@@ -50,8 +51,6 @@ pop @path;
 $path = join '/', @path;
 
 while (<>) {
-
-	chomp;
 
 	next if ($_ =~ /^#/);
 
@@ -115,6 +114,13 @@ while (<>) {
 
 		$newslide = 0;
 	}
+
+	if ($inpre && $_ !~ /^==$/) {
+		print;
+		next;
+	}
+
+	chomp;
 
 	# Determine indent depth
 	$depth = 0;
@@ -251,6 +257,9 @@ while (<>) {
 		    ($style ne '' ? " style=\"$style\"" : '') . ">\n" .
 		    "    <img src=\"$s\" width=\"$w\" height=\"$h\" />\n" .
 		    "  </div>\n";
+	} elsif ($_ =~ /^==$/) {
+		$inpre = !$inpre;
+		print "<".($inpre ? '' : '/')."pre>\n";
 	} else {
 
 		$_ =~ s-(^| )\*(.+)\*( |$)-$1<strong>$2</strong>$3-g;
