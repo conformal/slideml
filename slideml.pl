@@ -253,11 +253,11 @@ while (<>) {
 		    "  </div>\n";
 	} else {
 
-		$_ =~ s-\*(.+)\*-<strong>$1</strong>-g;
-		$_ =~ s-\/(.+)\/-<em>$1</em>-g;
-		$_ =~ s-_(.+)_-<u>$1</u>-g;
-		$_ =~ s-\^\^(.+)\^\^-<span style="font\-size: 150%">$1</span>-g;
-		$_ =~ s-\^(.+)\^-<span style="font\-size: 125%">$1</span>-g;
+		$_ =~ s-(^| )\*(.+)\*( |$)-$1<strong>$2</strong>$3-g;
+		$_ =~ s-(^| )\/(.+)\/( |$)-$1<em>$2</em>$3-g;
+		$_ =~ s-(^| )_(.+)_( |$)-$1<u>$2</u>$3-g;
+		$_ =~ s-(^| )\^\^(.+)\^\^( |$)-$1<span class="b2">$2</span>$3-g;
+		$_ =~ s-(^| )\^(.+)\^( |$)-$1<span class="b1">$2</span>$3-g;
 
 		print "</li>\n" if $inlistitem;
 		$inlistitem = 0;
@@ -323,18 +323,26 @@ div.cover {
 }
 
 div.slide div.cover h1 {
-  margin: 0px;
-  margin-top: 80px;
+	margin: 0px;
+	margin-top: 80px;
 }
 
 div.slide div.cover h2 {
-  margin: 0px;
+	margin: 0px;
 }
 
 div.footer {
 	position: absolute;
 	bottom: 32px;
 	font-size: 80%;
+}
+
+span.b1 {
+	font-size: 125%;
+}
+
+span.b2 {
+	font-size: 150%;
 }
 EOF
 	print "  </style>\n";
