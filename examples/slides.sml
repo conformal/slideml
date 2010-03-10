@@ -26,6 +26,7 @@ A ^presentation^ on ^^thingy^^ stuff
 * And /italic/
 * Now lets _underscore_
 	- this is so *awesome*
+Include some text with_underscores_inline and *asterisks*inline!
 !copyright in the footer!
 ---
 <Title on slide>
