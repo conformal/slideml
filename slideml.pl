@@ -116,7 +116,7 @@ while (<>) {
 	}
 
 	if ($inpre && $_ !~ /^==$/) {
-		print;
+		print html_escape($_);
 		next;
 	}
 
@@ -262,6 +262,9 @@ while (<>) {
 		print "<".($inpre ? '' : '/')."pre>\n";
 	} else {
 
+		$_ = html_escape($_);
+
+		# Process text tags
 		$_ =~ s-(^| )\*(.+)\*( |$)-$1<strong>$2</strong>$3-g;
 		$_ =~ s-(^| )\/(.+)\/( |$)-$1<em>$2</em>$3-g;
 		$_ =~ s-(^| )_(.+)_( |$)-$1<u>$2</u>$3-g;
@@ -291,6 +294,19 @@ print "  </div>\n" if $cover;
 print "</div>\n\n" if $slideno;
 
 &footer();
+
+sub html_escape() {
+
+	$_ = shift @_;
+
+	# Prevent &, < and > from ending up in HTML
+	$_ =~ s/&/\&amp;/g;
+	$_ =~ s/</\&lt;/g;
+	$_ =~ s/>/\&gt;/g;
+
+	return $_;
+
+}
 
 sub header() {
 
