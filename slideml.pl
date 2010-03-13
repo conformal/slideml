@@ -369,6 +369,10 @@ span.b1 {
 span.b2 {
 	font-size: 150%;
 }
+
+pre {
+	font-size: 70%;
+}
 EOF
 	print "  </style>\n";
 	print "</head>\n";
