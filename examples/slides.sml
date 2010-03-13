@@ -27,6 +27,7 @@ A ^presentation^ on ^^thingy^^ stuff
 * Now lets _underscore_
 	- this is so *awesome*
 Include some text with_underscores_inline and *asterisks*inline!
+Include some text with_formatted\_underscores\_inline and \*asterisks\*inline!
 !copyright in the footer!
 ---
 <Title on slide>
