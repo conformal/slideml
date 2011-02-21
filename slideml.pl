@@ -37,6 +37,8 @@ $listdepth = 0;
 @liststack = ();
 $inlistitem = 0;
 $inpre = 0;
+$intable = 0;
+$tstyle = ();
 
 $title = "SlideML";
 $bgcolour = "#333333";
@@ -44,6 +46,7 @@ $fgcolour = "#e4e4e4";
 $bgimage = "";
 $bgimagepos = "";
 $bgimagerpt = "";
+$tableborder = "#666666";
 
 # Get path to script
 @path = split '\/', $0;
@@ -64,12 +67,14 @@ while (<>) {
 			$bgimage = $2 if $1 eq 'backimage';
 			$bgimagepos = $2 if $1 eq 'backimagepos';
 			$bgimagerpt = $2 if $1 eq 'backimagerpt';
+			$tableborder = $2 if $1 eq 'tableborder';
 		} else {
 			$slide{bgcolour} = $2 if $1 eq 'background';
 			$slide{fgcolour} = $2 if $1 eq 'foreground';
 			$slide{bgimage} = $2 if $1 eq 'backimage';
 			$slide{bgimagepos} = $2 if $1 eq 'backimagepos';
 			$slide{bgimagerpt} = $2 if $1 eq 'backimagerpt';
+			$slide{tableborder} = $2 if $1 eq 'tableborder';
 			$slide{type} = $2 if $1 eq 'type';
 		}
 		next;
@@ -118,6 +123,12 @@ while (<>) {
 	if ($inpre && $_ !~ /^==$/) {
 		print html_escape($_);
 		next;
+	}
+
+	if ($intable && $_ !~ /^\|.*\|$/) {
+		print "  </table>\n";
+		$tstyle = ();
+		$intable = 0;
 	}
 
 	chomp;
@@ -260,19 +271,52 @@ while (<>) {
 	} elsif ($_ =~ /^==$/) {
 		$inpre = !$inpre;
 		print "<".($inpre ? '' : '/')."pre>\n";
+	} elsif ($_ =~ /^\|.*\|$/) {
+		# Table
+		if (!$intable) {
+			$intable = 1;
+			$style = " border: 4px solid $tableborder";
+			print "  <table style=\"$style\">\n";
+		}
+		print "    <tr>\n";
+		my $cellidx = 0;
+		my @cells = split /^\||\s\|/;
+		shift @cells;
+		foreach $cell (@cells) {
+			my $chr = substr($cell, 0, 1);
+			my $align = '';
+			my $colspan = '';
+			my $style = $tstyle[$cellidx];
+			my $tag = 'td';
+
+			until ($chr =~ /\s+/ || length($cell) < 1) {
+				$chr = substr($cell, 0, 1);
+				$cell = substr($cell, 1, length($cell) - 1);
+				$tag = 'th' if $chr eq '|';
+				$align = 'left' if $chr =~ /[Ll]/;
+				$align = 'center' if $chr =~ /[Cc]/;
+				$align = 'right' if $chr =~ /[Rr]/;
+				$colspan = " colspan=\"$1\"" if $chr =~ /(\d)/;
+			}
+
+			$style = "text-align: $align;" if $align ne '';
+			$tstyle[$cellidx] = $style if $tag eq 'th';
+			$style .= " border: 2px solid $tableborder";
+
+			$cell =~ s/^\s+//;
+			$cell =~ s/\\\|/\|/g;
+			$cell = html_escape($cell);
+			$cell = slideml_text($cell);
+
+			print "      " .
+			    "<$tag$colspan style=\"$style\">$cell</$tag>\n";
+			$cellidx++;
+		}
+		print "    </tr>\n";
 	} else {
 
 		$_ = html_escape($_);
-
-		# Process text tags
-		$_ =~ s-(^| )\*(.+)\*( |$)-$1<strong>$2</strong>$3-g;
-		$_ =~ s-\\\*(.+)\\\*-<strong>$1</strong>-g;
-		$_ =~ s-(^| )\/(.+)\/( |$)-$1<em>$2</em>$3-g;
-		$_ =~ s-\\\/(.+)\\\/-<em>$1</em>-g;
-		$_ =~ s-(^| )_(.+)_( |$)-$1<u>$2</u>$3-g;
-		$_ =~ s-\\_(.+)\\_-<u>$1</u>-g;
-		$_ =~ s-(^| )\^\^(.+)\^\^( |$)-$1<span class="b2">$2</span>$3-g;
-		$_ =~ s-(^| )\^(.+)\^( |$)-$1<span class="b1">$2</span>$3-g;
+		$_ = slideml_text($_);
 
 		print "</li>\n" if $inlistitem;
 		$inlistitem = 0;
@@ -311,6 +355,22 @@ sub html_escape() {
 
 }
 
+sub slideml_text() {
+
+	# Process text tags
+	$_ =~ s-(^| )\*(.+)\*( |$)-$1<strong>$2</strong>$3-g;
+	$_ =~ s-\\\*(.+)\\\*-<strong>$1</strong>-g;
+	$_ =~ s-(^| )\/(.+)\/( |$)-$1<em>$2</em>$3-g;
+	$_ =~ s-\\\/(.+)\\\/-<em>$1</em>-g;
+	$_ =~ s-(^| )_(.+)_( |$)-$1<u>$2</u>$3-g;
+	$_ =~ s-\\_(.+)\\_-<u>$1</u>-g;
+	$_ =~ s-(^| )\^\^(.+)\^\^( |$)-$1<span class="b2">$2</span>$3-g;
+	$_ =~ s-(^| )\^(.+)\^( |$)-$1<span class="b1">$2</span>$3-g;
+
+	return $_;
+
+}
+
 sub header() {
 
 	print <<EOF;
@@ -324,7 +384,7 @@ sub header() {
 <head>
   <title>$title</title>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-  <meta http-equiv="Generator" content="SlideML" />
+  <meta http-equiv="Generator" content="SlideML - http://freshmeat.net/projects/slideml" />
 EOF
 	print "  <script type=\"text/javascript\">\n";
 	print "  // <![CDATA[\n";
@@ -375,6 +435,19 @@ span.b2 {
 
 pre {
 	font-size: 70%;
+}
+
+table {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: collapse;
+}
+
+td {
+}
+
+th {
 }
 EOF
 	print "  </style>\n";

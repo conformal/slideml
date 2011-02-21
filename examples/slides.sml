@@ -46,6 +46,12 @@ Include some text with_formatted\_underscores\_inline and \*asterisks\*inline!
 3 three!
 [img src=http://www.openbsd.org/art/puffy/puf300X258.gif size=20% align=right]
 ---
+>A slide with a table<
+||L Heading A ||C Heading B ||R Heading C |
+| 1 | 2 | 3 |
+| _logical_ *OR* | \|\| | or |
+|2R /foo/ |L _blah_ |
+---
 >Another example<
 ==
 This is preformated
