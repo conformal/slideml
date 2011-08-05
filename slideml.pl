@@ -38,7 +38,7 @@ $listdepth = 0;
 $inlistitem = 0;
 $inpre = 0;
 $intable = 0;
-$tstyle = ();
+@tstyle = ();
 
 $title = "SlideML";
 $bgcolour = "#333333";
@@ -46,7 +46,8 @@ $fgcolour = "#e4e4e4";
 $bgimage = "";
 $bgimagepos = "";
 $bgimagerpt = "";
-$tableborder = "#666666";
+$tblborder = "solid";
+$tblcolour = "#666666";
 
 # Get path to script
 @path = split '\/', $0;
@@ -67,14 +68,14 @@ while (<>) {
 			$bgimage = $2 if $1 eq 'backimage';
 			$bgimagepos = $2 if $1 eq 'backimagepos';
 			$bgimagerpt = $2 if $1 eq 'backimagerpt';
-			$tableborder = $2 if $1 eq 'tableborder';
+			$tblborder = $2 if $1 eq 'tableborder';
 		} else {
 			$slide{bgcolour} = $2 if $1 eq 'background';
 			$slide{fgcolour} = $2 if $1 eq 'foreground';
 			$slide{bgimage} = $2 if $1 eq 'backimage';
 			$slide{bgimagepos} = $2 if $1 eq 'backimagepos';
 			$slide{bgimagerpt} = $2 if $1 eq 'backimagerpt';
-			$slide{tableborder} = $2 if $1 eq 'tableborder';
+			$slide{tblborder} = $2 if $1 eq 'tableborder';
 			$slide{type} = $2 if $1 eq 'type';
 		}
 		next;
@@ -127,7 +128,6 @@ while (<>) {
 
 	if ($intable && $_ !~ /^\|.*\|$/) {
 		print "  </table>\n";
-		$tstyle = ();
 		$intable = 0;
 	}
 
@@ -275,7 +275,9 @@ while (<>) {
 		# Table
 		if (!$intable) {
 			$intable = 1;
-			$style = " border: 4px solid $tableborder";
+			@tstyle = ();
+			$style = " border: 4px ".(($slide{tblborder} ne '') ?
+                            $slide{tblborder} : $tblborder)." $tblcolour";
 			print "  <table style=\"$style\">\n";
 		}
 		print "    <tr>\n";
@@ -286,6 +288,7 @@ while (<>) {
 			my $chr = substr($cell, 0, 1);
 			my $align = '';
 			my $colspan = '';
+			my $rowspan = '';
 			my $style = $tstyle[$cellidx];
 			my $tag = 'td';
 
@@ -296,20 +299,26 @@ while (<>) {
 				$align = 'left' if $chr =~ /[Ll]/;
 				$align = 'center' if $chr =~ /[Cc]/;
 				$align = 'right' if $chr =~ /[Rr]/;
-				$colspan = " colspan=\"$1\"" if $chr =~ /(\d)/;
+				if ($chr =~ /(\d)/ && $rowspan eq '') {
+					$colspan = " colspan=\"$1\"";
+				}
+				if ($chr =~ /[Xx]/ && $cell =~ /^(\d+)/) {
+					$rowspan = " rowspan=\"$1\"";
+				}
 			}
 
 			$style = "text-align: $align;" if $align ne '';
 			$tstyle[$cellidx] = $style if $tag eq 'th';
-			$style .= " border: 2px solid $tableborder";
+			$style .= " border: 2px ".(($slide{tblborder} ne '') ?
+                            $slide{tblborder} : $tblborder)." $tblcolour";
 
 			$cell =~ s/^\s+//;
 			$cell =~ s/\\\|/\|/g;
 			$cell = html_escape($cell);
 			$cell = slideml_text($cell);
 
-			print "      " .
-			    "<$tag$colspan style=\"$style\">$cell</$tag>\n";
+			print "      <$tag$colspan$rowspan " .
+			    "style=\"$style\">$cell</$tag>\n";
 			$cellidx++;
 		}
 		print "    </tr>\n";
