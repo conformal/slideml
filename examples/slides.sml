@@ -46,11 +46,17 @@ Include some text with_formatted\_underscores\_inline and \*asterisks\*inline!
 3 three!
 [img src=http://www.openbsd.org/art/puffy/puf300X258.gif size=20% align=right]
 ---
->A slide with a table<
+>A slide with two tables<
 ||L Heading A ||C Heading B ||R Heading C |
 | 1 | 2 | 3 |
 | _logical_ *OR* | \|\| | or |
 |2R /foo/ |L _blah_ |
+
+@tableborder=dotted
+||4L Span some columns and rows |
+| a |2x2C /foo/ |R _blah1_ |
+| b |1x2 _blah2_ |
+| 1 | 2 | 3 |
 ---
 >Another example<
 ==
