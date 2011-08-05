@@ -2,7 +2,7 @@ $slideml$
 
 1. Overview
 
-Slideml is a meta-language to aid in writing presentations in simple to read
+SlideML is a meta-language to aid in writing presentations in simple to read
 text.  This text is then translated into XHTML and can be presented
 using a standard web browser.
 
@@ -25,20 +25,20 @@ example:
 The foreground color of the text uses the @foreground tag.  For example:
 @foreground=#abcd00
 
-There are 2 types of slides
-	1. Introduction slide (intro)
-		The introduction slide has centered large text for
-		typically 1 or 2 lines for the presentation name and author.
-	2. Regular slide (normal)
+There are two types of slides:
+	1. Title slides (title)
+		The title slide has centered large text for typically one or
+		two lines for the presentation name and author.
+	2. Regular slides (normal)
 		This is a slide with a header, content and footer.
-For example
-@type=intro
+For example:
+@type=title
 or
 @type=normal
 
 If required one can use a picture as the background for the presentation
-using the @picture tag.  For example:
-@picture=example.png
+using the @backimage tag.  For example:
+@backimage=example.png
 
 The default font can be changed using the @font tag.  For example:
 @font=mysnazyfont
@@ -48,7 +48,7 @@ The default font can be changed using the @font tag.  For example:
 
 All slide tags and section designators must be at the start of the line.
 
-A slide consists of 5 sections:
+A slide consists of five sections:
 	1. New slide designator
 	2. Slide specific meta-data
 	3. Slide header
@@ -98,8 +98,7 @@ something like hi!! renders as text.
 
 4. Text
 
-The text tags are wrappers of meta-characters surrounding a piece
-of text.
+The text tags are wrappers of meta-characters surrounding a piece of text.
 
 The supported tags are:
 	* Bold.  Bold is text wrapped in **
@@ -126,3 +125,32 @@ The supported tags are:
 			W & H are width and heigh in pixels
 			X & Y are pixel locations
 			A is align keyword such as left or top.
+
+5. Tables
+
+A table is specified as one or more cells that are denoted using the pipe (|)
+character for the cell boundary. The pipe character can be followed by an
+optional formatting specifier. This is then followed by a tab or a space and
+your cell content.
+
+Valid formatting specifiers for a table cell are:
+- A pipe (i.e. ||) - this denotes a heading cell.
+- A L, C, or R - these denote left, center or right alignment for the contents.
+- A digit - this denotes the number of columns to span.
+- A NxN (i.e. 2x2) - this denotes the number of columns and rows to span.
+ 
+Tables automatically begin and end whenever cells are specified. For example:
+
+  ||L Heading A ||C Heading B ||R Heading C |
+  | 1 | 2 | 3 |
+  | _logical_ *OR* | \|\| | or |
+  |2 /foo/ |L _blah_ |
+ 
+Will generate a table with one heading row and three data rows, with the left 
+column being left aligned, the middle column being centered and the right 
+column being right aligned. With the last row the first cell is left aligned 
+and spans two columns, with the last (second) cell being left aligned.
+
+The border of a table is controlled via the @tableborder meta-data value:
+
+@tableborder=[solid|dotted|none]
