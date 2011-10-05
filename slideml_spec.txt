@@ -121,7 +121,7 @@ The supported tags are:
 	* Pictures.
 	  [img=I [size=P | width=W height=H] [xpos=X ypos=Y | align=A]]
 	  Where:	I is a link to, or a picture.
-	  		P is a percentage of the orignal size of an image.
+			P is a percentage of the orignal size of an image.
 			W & H are width and heigh in pixels
 			X & Y are pixel locations
 			A is align keyword such as left or top.
@@ -138,17 +138,17 @@ Valid formatting specifiers for a table cell are:
 - A L, C, or R - these denote left, center or right alignment for the contents.
 - A digit - this denotes the number of columns to span.
 - A NxN (i.e. 2x2) - this denotes the number of columns and rows to span.
- 
+
 Tables automatically begin and end whenever cells are specified. For example:
 
   ||L Heading A ||C Heading B ||R Heading C |
   | 1 | 2 | 3 |
   | _logical_ *OR* | \|\| | or |
   |2 /foo/ |L _blah_ |
- 
-Will generate a table with one heading row and three data rows, with the left 
+
+Will generate a table with one heading row and three data rows, with the left
 column being left aligned, the middle column being centered and the right 
-column being right aligned. With the last row the first cell is left aligned 
+column being right aligned. With the last row the first cell is left aligned
 and spans two columns, with the last (second) cell being left aligned.
 
 The border of a table is controlled via the @tableborder meta-data value:
