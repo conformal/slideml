@@ -22,6 +22,7 @@
 # Generate HTML Slidy slides from SlideML
 #
 
+use File::Basename;
 use File::Fetch;
 
 # See if Image::Size is available
@@ -50,9 +51,7 @@ $tblborder = "solid";
 $tblcolour = "#666666";
 
 # Get path to script
-@path = split '\/', $0;
-pop @path;
-$path = join '/', @path;
+$path = dirname(__FILENAME__);
 
 while (<>) {
 
@@ -484,7 +483,7 @@ EOF
 
 sub slidy_css() {
 
-	open CSS, "$path/slidy.css";
+	open CSS, "$path/slidy.css" || die "Failed to open $path/slidy.css";
 	flock CSS, 1;
 	@css = <CSS>;
 	flock CSS, 8;
@@ -495,7 +494,7 @@ sub slidy_css() {
 
 sub slidy_js() {
 
-	open JS, "$path/slidy.js";
+	open JS, "$path/slidy.js" || die "Failed to open $path/slidy.js";
 	flock JS, 1;
 	@js = <JS>;
 	flock JS, 8;
