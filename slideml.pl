@@ -1,7 +1,4 @@
 #!/usr/bin/perl
-
-# $slideml$
-
 #
 # Copyright (c) 2010 Joel Sing (joel@sing.id.au)
 #

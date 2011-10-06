@@ -1,7 +1,3 @@
-$slideml$
-
-=============================================================================
-
 slidy.css and slidy.js is distributed under the following license:
 
 W3C Software Notice and License
@@ -65,7 +61,7 @@ under the Open Source Definition.
 slideml.pl is distributed under the following license:
 
 /*
- * Copyright (c) 2010 Joel Sing (joel@sing.id.au)
+ * Copyright (c) 2010, 2011 Joel Sing (joel@sing.id.au)
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -85,8 +81,8 @@ slideml.pl is distributed under the following license:
 The meta language format has the following license:
 
 /*
- * Copyright (c) 2010 Joel Sing (joel@sing.id.au)
- * Copyright (c) 2010 Marco Peereboom <marco@peereboom.us>
+ * Copyright (c) 2010, 2011 Joel Sing (joel@sing.id.au)
+ * Copyright (c) 2010, 2011 Marco Peereboom <marco@peereboom.us>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above

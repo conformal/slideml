@@ -1,5 +1,3 @@
-$slideml$
-
 1. Overview
 
 SlideML is a meta-language to aid in writing presentations in simple to read
