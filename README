@@ -1,0 +1,5 @@
+Current dependencies:
+	- p5-Image-Size
+
+Creating the example presentation:
+	slideml.pl examples/slides.sml > mypresentation.html
