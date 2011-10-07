@@ -21,7 +21,7 @@
 #   - Tags the release
 #   - Creates a release tarball
 
-PROJECT=slieml
+PROJECT=slideml
 PROJECT_UC=$(echo $PROJECT | tr '[:lower:]' '[:upper:]')
 SCRIPT=$(basename $0)
 VERFILE=version
