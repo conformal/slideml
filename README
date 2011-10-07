@@ -3,3 +3,5 @@ Current dependencies:
 
 Creating the example presentation:
 	slideml.pl examples/slides.sml > mypresentation.html
+
+Note that slidy.css and slidy.js must be in the same directory as slideml.pl.
